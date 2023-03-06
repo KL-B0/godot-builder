@@ -19,4 +19,4 @@ to discuss what you would like to change.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)uild your Godot 4 projects
+[MIT](https://choosealicense.com/licenses/mit/)

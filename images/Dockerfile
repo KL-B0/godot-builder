@@ -27,6 +27,7 @@ RUN wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v
   && unzip -q Godot_v${GODOT_VERSION}-stable_export_templates.tpz \
   && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
   && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
+  && rmdir templates \
   && rm Godot_v${GODOT_VERSION}-stable_export_templates.tpz
 
 RUN godot -e -q --headless --quit

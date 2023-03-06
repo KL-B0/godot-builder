@@ -1,0 +1,7 @@
+# Godot files
+.import/
+.godot/
+export.cfg
+
+# Translation files
+*.translation

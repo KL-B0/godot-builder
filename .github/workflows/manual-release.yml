@@ -1,0 +1,37 @@
+name: Manual release 🚀
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Engine version"
+        required: true
+        type: string
+
+jobs:
+  build-release-image:
+    name: Build and release image 💿
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+        with:
+          lfs: true
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          
+      - name: Build and push the image
+        uses: docker/build-push-action@v4.0.0
+        with:
+          build-args: |
+            GODOT_VERSION=${{ github.event.inputs.version }}
+          file: images/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USER }}/godot:latest
+            ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
+          

@@ -1,0 +1,39 @@
+name: 'Godot - Builder'
+description: 'Build your Godot 4 projects'
+
+branding:
+  icon: 'box'
+  color: 'gray-dark'
+
+inputs:
+  godot-version:
+    description: 'Godot engine version'
+    required: true
+  target-platform:
+    description: 'Export target platform'
+    required: true
+  export-preset:
+    description: 'Export preset name'
+    required: true
+  export-path:
+    description: 'Export output path'
+    required: true
+
+runs:
+  build-windows:
+    - name: 'Export for Windows Desktop'
+      if: inputs.target-platform == 'win'
+      runs-on: ubuntu-latest
+      container:
+        image: klb0/godot:${{ inputs.godot-version }}
+      steps:
+        run: godot --headless --export-release ${{ inputs.export-preset }} ${{ inputs.export-path }}
+
+  build-linux:
+    - name: 'Export for Linux/X11'
+      if: inputs.target-platform == 'linux'
+      runs-on: ubuntu-latest
+      container:
+        image: klb0/godot:${{ inputs.godot-version }}
+      steps:
+        run: godot --headless --export-release ${{ inputs.export-preset }} ${{ inputs.export-path }}

@@ -1,0 +1,9 @@
+{
+  "name": "godot-builder",
+  "version": "0.1",
+  "description": "Build your Godot 4 projects",
+  "main": "dist/index.js",
+  "repository": "git@github.com:KL-B0/godot-builder.git",
+  "author": "KL-B0 <capalbo.lorenzo@tutanota.com>",
+  "license": "MIT"
+}

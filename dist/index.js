@@ -38,7 +38,8 @@ function main() {
         console.log(core.getInput('godot-version'));
     }
     catch (error) {
-        core.setFailed(error.message);
+        console.log(error.message);
+        // core.setFailed((error as Error).message);
     }
 }
 main();

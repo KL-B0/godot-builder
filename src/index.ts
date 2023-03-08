@@ -7,7 +7,8 @@ function main() {
   try {
     console.log(core.getInput('godot-version'));
   } catch (error) {
-    core.setFailed((error as Error).message);
+    console.log((error as Error).message);
+    // core.setFailed((error as Error).message);
   }
 }
 

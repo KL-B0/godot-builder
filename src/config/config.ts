@@ -1,5 +1,9 @@
 import { Parameter, engineVersions, targetPlatforms } from './supported'
+
 import * as core from '@actions/core'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 
 class Config {
   public readonly engineVersion: string;
@@ -26,11 +30,18 @@ class Config {
     switch (parameter) {
       case Parameter.EngineVersion:
         if (!engineVersions.includes(value))
-          throw "Engine version ${value} is not supported";
+          throw 'Engine version "${value}" is not supported';
         break;
       case Parameter.TargetPlatform:
         if (!targetPlatforms.includes(value))
-          throw "Target platform ${value} is not supported";
+          throw 'Target platform "${value}" is not supported';
+        break;
+      case Parameter.ExportPreset:
+        // TODO add check
+        break;
+      case Parameter.ProjectPath:
+        if (!fs.existsSync(path.join(value, 'project.godot')))
+          throw 'No project was found at "${value}"'
         break;
     }
     return value

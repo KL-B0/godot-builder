@@ -1,13 +1,8 @@
-const supportedGodotVersions = [
-  '4.0'
-]
-
-const supportedTargetPlatforms = [
-  'windows'
-]
+import { Parameter, engineVersions, targetPlatforms } from './supported'
+import * as core from '@actions/core'
 
 class Config {
-  public readonly godotVersion: string;
+  public readonly engineVersion: string;
   public readonly targetPlatform: string;
   public readonly exportPreset: string;
   public readonly projectPath: string;
@@ -15,31 +10,32 @@ class Config {
   public readonly exportName: string;
 
   constructor() {
-    this.godotVersion = this.getConfig(SupportedConfigs.GodotVersion);
-    this.targetPlatform = this.getConfig(SupportedConfigs.TargetPlatform);
-    this.exportPreset = this.getConfig(SupportedConfigs.ExportPreset);
-    this.projectPath = this.getConfig(SupportedConfigs.ProjectPath);
-    this.exportPath = this.getConfig(SupportedConfigs.ExportPath);
-    this.exportName = this.getConfig(SupportedConfigs.ExportName);
+    this.engineVersion = this.getParameter(Parameter.EngineVersion);
+    this.targetPlatform = this.getParameter(Parameter.TargetPlatform);
+    this.exportPreset = this.getParameter(Parameter.ExportPreset);
+    this.projectPath = this.getParameter(Parameter.ProjectPath);
+    this.exportPath = this.getParameter(Parameter.ExportPath);
+    this.exportName = this.getParameter(Parameter.ExportName);
   }
 
-  private getConfig(config: SupportedConfigs): string {
-    return config
+  private getParameter(parameter: Parameter): string {
+    return Config.processParameter(parameter, core.getInput(parameter));
   }
 
-  public static validateGodotVersion(godotVersion: string): void {
-    if (!supportedGodotVersions.includes(godotVersion))
-      throw "...";
+  public static processParameter(parameter: Parameter, value: string): string {
+    switch (parameter) {
+      case Parameter.EngineVersion:
+        if (!engineVersions.includes(value))
+          throw "Engine version ${value} is not supported";
+        break;
+      case Parameter.TargetPlatform:
+        if (!targetPlatforms.includes(value))
+          throw "Target platform ${value} is not supported";
+        break;
+    }
+    return value
   }
 }
 
-const enum SupportedConfigs {
-  GodotVersion = 'godot-version',
-  TargetPlatform = 'target-platform',
-  ExportPreset = 'export-preset',
-  ProjectPath = 'project-path',
-  ExportPath = 'export-path',
-  ExportName = 'export-name'
-}
 
 export default Config;

@@ -1,51 +1,38 @@
 import Config from '../src/config/config'
+import { Parameter, engineVersions, targetPlatforms } from '../src/config/supported'
 
-test('godot version validation', async () => {
-  let config = new Config();
 
-  expect(() => { config.validateGodotVersion(('2.1')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('3.5.0')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('4.0')) }).not.toThrow();
+test('engine version validation', async () => {
+  expect(() => {
+    Config.processParameter(Parameter.EngineVersion, '3.0')
+  }).toThrow();
+
+  expect(() => {
+    Config.processParameter(Parameter.EngineVersion, '3.5.1')
+  }).toThrow();
+
+  const randomVersion = engineVersions[Math.floor(Math.random() * engineVersions.length)];
+  const result = Config.processParameter(
+    Parameter.EngineVersion,
+    randomVersion
+  )
+  expect(result).toEqual(randomVersion);
 })
+
 
 test('target platform validation', async () => {
-  let config = new Config();
+  expect(() => {
+    Config.processParameter(Parameter.TargetPlatform, 'openbsd')
+  }).toThrow();
 
-  expect(() => { config.validateTargetVersion(('macos')) }).toThrow();
-  expect(() => { config.validateTargetVersion(('android')) }).toThrow();
-  expect(() => { config.validateTargetVersion(('ios')) }).toThrow();
-  expect(() => { config.validateTargetVersion(('windows')) }).not.toThrow();
-  expect(() => { config.validateTargetVersion(('linux')) }).not.toThrow();
-})
+  expect(() => {
+    Config.processParameter(Parameter.TargetPlatform, 'win')
+  }).toThrow();
 
-test('godot version validation', async () => {
-  let config = new Config();
-
-  expect(() => { config.validateGodotVersion(('2.1')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('3.5.0')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('4.0')) }).not.toThrow();
-})
-
-test('godot version validation', async () => {
-  let config = new Config();
-
-  expect(() => { config.validateGodotVersion(('2.1')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('3.5.0')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('4.0')) }).not.toThrow();
-})
-
-test('godot version validation', async () => {
-  let config = new Config();
-
-  expect(() => { config.validateGodotVersion(('2.1')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('3.5.0')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('4.0')) }).not.toThrow();
-})
-
-test('godot version validation', async () => {
-  let config = new Config();
-
-  expect(() => { config.validateGodotVersion(('2.1')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('3.5.0')) }).toThrow();
-  expect(() => { config.validateGodotVersion(('4.0')) }).not.toThrow();
+  const randomPlatform = targetPlatforms[Math.floor(Math.random() * targetPlatforms.length)];
+  const result = Config.processParameter(
+    Parameter.TargetPlatform,
+    randomPlatform
+  )
+  expect(result).toEqual(randomPlatform);
 })

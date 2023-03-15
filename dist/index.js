@@ -23,6 +23,27 @@ exports["default"] = BuildConfig;
 
 /***/ }),
 
+/***/ 729:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+class ImageTag {
+    constructor(config) {
+        this.engineVersion = config.engineVersion;
+        this.androidSupport = false;
+        this.blenderSupport = false;
+    }
+    generateTag() {
+        return this.engineVersion;
+    }
+}
+exports["default"] = ImageTag;
+
+
+/***/ }),
+
 /***/ 29:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -32,9 +53,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.BuildConfig = void 0;
+exports.ImageTag = exports.BuildConfig = void 0;
 const build_config_1 = __importDefault(__nccwpck_require__(672));
 exports.BuildConfig = build_config_1.default;
+const image_tag_1 = __importDefault(__nccwpck_require__(729));
+exports.ImageTag = image_tag_1.default;
 
 
 /***/ }),
@@ -217,7 +240,8 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const buildConfig = new godot_builder_1.BuildConfig();
-            console.log(buildConfig.engineVersion);
+            const imageTag = new godot_builder_1.ImageTag(buildConfig);
+            console.log(imageTag.generateTag());
         }
         catch (error) {
             core.error(error.message);

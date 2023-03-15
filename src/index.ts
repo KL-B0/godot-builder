@@ -1,11 +1,12 @@
 import * as core from '@actions/core'
 
-import {BuildConfig} from './godot-builder'
+import {BuildConfig, ImageTag} from './godot-builder'
 
 async function main() {
   try {
     const buildConfig = new BuildConfig()
-    console.log(buildConfig.engineVersion)
+    const imageTag = new ImageTag(buildConfig)
+    console.log(imageTag.generateTag())
   } catch (error) {
     core.error((error as Error).message)
   }

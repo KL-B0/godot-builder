@@ -1,6 +1,201 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 672:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const input_1 = __nccwpck_require__(711);
+class BuildConfig {
+    constructor() {
+        this.engineVersion = (0, input_1.engineVersion)();
+        this.targetPlatform = (0, input_1.targetPlatform)();
+        this.projectPath = (0, input_1.projectPath)();
+        this.exportPreset = (0, input_1.exportPreset)();
+        this.exportPath = (0, input_1.exportPath)();
+        this.exportName = (0, input_1.exportName)();
+    }
+}
+exports["default"] = BuildConfig;
+
+
+/***/ }),
+
+/***/ 729:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+class ImageTag {
+    constructor(config) {
+        this.engineVersion = config.engineVersion;
+        this.androidSupport = false;
+        this.blenderSupport = false;
+    }
+    generateTag() {
+        return this.engineVersion;
+    }
+}
+exports["default"] = ImageTag;
+
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ImageTag = exports.BuildConfig = void 0;
+const build_config_1 = __importDefault(__nccwpck_require__(672));
+exports.BuildConfig = build_config_1.default;
+const image_tag_1 = __importDefault(__nccwpck_require__(729));
+exports.ImageTag = image_tag_1.default;
+
+
+/***/ }),
+
+/***/ 644:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const engineVersions = ['4.0', 'latest'];
+exports["default"] = engineVersions;
+
+
+/***/ }),
+
+/***/ 260:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.targetPlatforms = exports.engineVersions = void 0;
+const engine_version_1 = __importDefault(__nccwpck_require__(644));
+exports.engineVersions = engine_version_1.default;
+const target_platform_1 = __importDefault(__nccwpck_require__(576));
+exports.targetPlatforms = target_platform_1.default;
+
+
+/***/ }),
+
+/***/ 576:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const targetPlatforms = ['windows', 'linux'];
+exports["default"] = targetPlatforms;
+
+
+/***/ }),
+
+/***/ 711:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.exportName = exports.exportPath = exports.exportPreset = exports.projectPath = exports.targetPlatform = exports.engineVersion = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const node_fs_1 = __importDefault(__nccwpck_require__(561));
+const node_path_1 = __importDefault(__nccwpck_require__(411));
+const input_validation_1 = __nccwpck_require__(260);
+function getInput(parameter) {
+    const input = core.getInput(parameter);
+    if (input || input !== '')
+        return input;
+}
+function engineVersion() {
+    const version = getInput('engine-version') || 'latest';
+    if (!input_validation_1.engineVersions.includes(version))
+        throw new Error('Engine version "${engineVersion}" is not supported');
+    return version;
+}
+exports.engineVersion = engineVersion;
+function targetPlatform() {
+    const platform = getInput('target-platform');
+    if (!platform)
+        throw new Error('No target platform was specified');
+    if (!input_validation_1.targetPlatforms.includes(platform))
+        throw new Error('Target platform "${targetPlatform}" is not supported');
+    return platform;
+}
+exports.targetPlatform = targetPlatform;
+function projectPath() {
+    const projPath = getInput('project-path') || './';
+    if (!node_fs_1.default.existsSync(node_path_1.default.join(projPath, 'project.godot')))
+        throw new Error('No project was found at "${projectPath}"');
+    return projPath;
+}
+exports.projectPath = projectPath;
+function exportPreset() {
+    const preset = getInput('export-preset');
+    const exportPresetsPath = node_path_1.default.join(projectPath(), 'export_presets.cfg');
+    if (!preset)
+        throw new Error('No export preset was specified');
+    if (!node_fs_1.default.existsSync(exportPresetsPath))
+        throw new Error('No export presets configuration was found');
+    if (!node_fs_1.default.readFileSync(exportPresetsPath).includes(preset))
+        throw new Error('Export preset "${exportPreset}" is not present in the configuration');
+    return preset;
+}
+exports.exportPreset = exportPreset;
+function exportPath() {
+    return getInput('export-path') || 'out/';
+}
+exports.exportPath = exportPath;
+function exportName() {
+    const name = getInput('export-name');
+    if (!name)
+        throw new Error('No export name was specified');
+    return name;
+}
+exports.exportName = exportName;
+
+
+/***/ }),
+
 /***/ 667:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -40,9 +235,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const godot_builder_1 = __nccwpck_require__(29);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const buildConfig = new godot_builder_1.BuildConfig();
+            const imageTag = new godot_builder_1.ImageTag(buildConfig);
+            console.log(imageTag.generateTag());
         }
         catch (error) {
             core.error(error.message);
@@ -2809,6 +3008,22 @@ module.exports = require("https");
 
 "use strict";
 module.exports = require("net");
+
+/***/ }),
+
+/***/ 561:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:fs");
+
+/***/ }),
+
+/***/ 411:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:path");
 
 /***/ }),
 

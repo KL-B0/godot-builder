@@ -1,7 +1,4 @@
-import engineVersions from './engine-version';
-import targetPlatforms from './target-platform';
+import engineVersions from './engine-version'
+import targetPlatforms from './target-platform'
 
-export {
-  engineVersions,
-  targetPlatforms
-}
+export {engineVersions, targetPlatforms}

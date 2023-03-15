@@ -1,6 +1,3 @@
-const targetPlatforms = [
-  'windows',
-  'linux'
-];
+const targetPlatforms = ['windows', 'linux']
 
-export default targetPlatforms;
+export default targetPlatforms

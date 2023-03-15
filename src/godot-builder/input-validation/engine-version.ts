@@ -1,6 +1,3 @@
-const engineVersions = [
-  '4.0',
-  'latest'
-];
+const engineVersions = ['4.0', 'latest']
 
-export default engineVersions;
+export default engineVersions

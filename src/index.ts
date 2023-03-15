@@ -1,10 +1,10 @@
-// 1. Create directory
-// 2. Build project for plaform X
+import * as core from '@actions/core'
 
-function main() {
+
+async function main() {
   try {
   } catch (error) {
-    // core.setFailed((error as Error).message);
+    core.error((error as Error).message);
   }
 }
 

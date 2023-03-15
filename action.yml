@@ -14,13 +14,13 @@ inputs:
   target-platform:
     description: 'Export target platform'
     required: true
-  export-preset:
-    description: 'Export preset name'
-    required: true
   project-path:
     description: 'Project folder path'
     required: true
     default: '.'
+  export-preset:
+    description: 'Export preset name'
+    required: true
   export-path:
     description: 'Export output path'
     required: true

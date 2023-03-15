@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 
-import Input from './input'
-import { engineVersions, targetPlatforms } from './input-validation';
+import { engineVersion, targetPlatform, projectPath, exportPreset, exportPath, exportName } from '../src/godot-builder/input'
+import { engineVersions, targetPlatforms } from '../src/godot-builder/input-validation'
 
 
 afterEach(() => {
@@ -12,40 +12,40 @@ afterEach(() => {
 describe('Input', () => {
   describe('engineVersion', () => {
     it('returns the default value', () => {
-      expect(Input.engineVersion).toStrictEqual('latest');
+      expect(engineVersion()).toStrictEqual('latest');
     });
 
     it('throws on unsupported values', () => {
       const mockValue = '3.0';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(() => { Input.engineVersion }).toThrow();
+      expect(() => { engineVersion() }).toThrow();
       expect(spy).toHaveBeenCalled();
     });
 
     it('returns a supported value', () => {
       const mockValue = engineVersions[Math.floor(Math.random() * engineVersions.length)];
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(Input.engineVersion).toStrictEqual(mockValue);
+      expect(engineVersion()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('targetPlatform', () => {
     it('throws with no given input', () => {
-      expect(() => { Input.targetPlatform }).toThrow();
+      expect(() => { targetPlatform() }).toThrow();
     });
 
     it('throws on unsupported values', () => {
       const mockValue = 'raspberry';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(() => { Input.targetPlatform }).toThrow();
+      expect(() => { targetPlatform() }).toThrow();
       expect(spy).toHaveBeenCalled();
     });
 
     it('returns a supported value', () => {
       const mockValue = targetPlatforms[Math.floor(Math.random() * targetPlatforms.length)];
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(Input.targetPlatform).toStrictEqual(mockValue);
+      expect(targetPlatform()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalled();
     });
   });
@@ -54,21 +54,21 @@ describe('Input', () => {
     it('throws on unsupported values', () => {
       const mockValue = 'nonexistent-project/';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(() => { Input.projectPath }).toThrow();
+      expect(() => { projectPath() }).toThrow();
       expect(spy).toHaveBeenCalled();
     });
 
     it('returns a supported value', () => {
       const mockValue = 'test-project/';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(Input.projectPath).toStrictEqual(mockValue);
+      expect(projectPath()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('exportPreset', () => {
     it('throws with no given input', () => {
-      expect(() => { Input.exportPreset }).toThrow();
+      expect(() => { exportPreset() }).toThrow();
     });
 
     it('throws on unsupported values', () => {
@@ -80,7 +80,7 @@ describe('Input', () => {
         return 'test-project/';
       })
 
-      expect(() => { Input.exportPreset }).toThrow();
+      expect(() => { exportPreset() }).toThrow();
       expect(spy).toHaveBeenCalledTimes(2);
     });
 
@@ -95,33 +95,33 @@ describe('Input', () => {
         return 'test-project/';
       })
 
-      expect(Input.exportPreset).toStrictEqual(mockValue);
+      expect(exportPreset()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('exportPath', () => {
     it('returns the default value', () => {
-      expect(Input.exportPath).toStrictEqual('out/');
+      expect(exportPath()).toStrictEqual('out/');
     });
 
     it('returns a supported value', () => {
       const mockValue = 'build/linux';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(Input.exportPath).toStrictEqual(mockValue);
+      expect(exportPath()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalled();
     });
   });
 
   describe('exportName', () => {
     it('throws with no given input', () => {
-      expect(() => { Input.exportName }).toThrow();
+      expect(() => { exportName() }).toThrow();
     });
 
     it('returns a supported value', () => {
       const mockValue = 'project';
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue);
-      expect(Input.exportName).toStrictEqual(mockValue);
+      expect(exportName()).toStrictEqual(mockValue);
       expect(spy).toHaveBeenCalled();
     });
   });

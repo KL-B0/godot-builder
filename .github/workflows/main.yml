@@ -61,6 +61,9 @@ jobs:
     
       - name: Compile action
         run: yarn build
+
+      - name: Package action
+        run: yarn package
       
       - name: Check if latest js build is uploaded
         run: git diff-index --quiet HEAD

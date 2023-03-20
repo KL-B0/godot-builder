@@ -61,6 +61,9 @@ jobs:
         
       - name: Run test suite
         run: yarn test
+      
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3.1.1
   
   build:
     name: Build ⚙️

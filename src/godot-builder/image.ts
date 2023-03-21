@@ -12,7 +12,7 @@ class Image {
   }
 
   generateTag(): string {
-    return this.engineVersion
+    return `klb0/godot:${this.engineVersion}`
   }
 }
 

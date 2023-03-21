@@ -23,23 +23,23 @@ exports["default"] = BuildConfig;
 
 /***/ }),
 
-/***/ 729:
+/***/ 118:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-class ImageTag {
+class Image {
     constructor(config) {
         this.engineVersion = config.engineVersion;
         this.androidSupport = false;
         this.blenderSupport = false;
     }
     generateTag() {
-        return this.engineVersion;
+        return `klb0/godot:${this.engineVersion}`;
     }
 }
-exports["default"] = ImageTag;
+exports["default"] = Image;
 
 
 /***/ }),
@@ -53,11 +53,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ImageTag = exports.BuildConfig = void 0;
+exports.Image = exports.BuildConfig = void 0;
 const build_config_1 = __importDefault(__nccwpck_require__(672));
 exports.BuildConfig = build_config_1.default;
-const image_tag_1 = __importDefault(__nccwpck_require__(729));
-exports.ImageTag = image_tag_1.default;
+const image_1 = __importDefault(__nccwpck_require__(118));
+exports.Image = image_1.default;
 
 
 /***/ }),
@@ -240,7 +240,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const buildConfig = new godot_builder_1.BuildConfig();
-            const imageTag = new godot_builder_1.ImageTag(buildConfig);
+            const imageTag = new godot_builder_1.Image(buildConfig);
             console.log(imageTag.generateTag());
         }
         catch (error) {

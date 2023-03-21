@@ -68,7 +68,7 @@ describe('ImageTag', () => {
       const buildConfig = new BuildConfig()
       const image = new Image(buildConfig)
 
-      expect(image.generateTag()).toBe('4.0')
+      expect(image.generateTag()).toBe('klb0/godot:4.0')
 
       expect(spy).toHaveBeenCalledTimes(7)
     })

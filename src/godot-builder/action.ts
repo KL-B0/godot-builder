@@ -1,13 +1,12 @@
 import path from 'node:path'
 
-export const supportedRunners: string[] = [
-  'darwin',
-  'linux'
-]
+export const supportedRunners: string[] = ['darwin', 'linux']
 
 export function checkRunnerCompatibility(): void {
   if (!supportedRunners.includes(process.platform))
-    throw new Error('The current platform "${process.platform}" is not supported')
+    throw new Error(
+      'The current platform "${process.platform}" is not supported'
+    )
 }
 
 export function getActionFolder(): string {
@@ -19,5 +18,7 @@ export function getRootFolder(): string {
 }
 
 export function getWorkspace(): string {
-  return process.env.GITHUB_WORKSPACE!;
+  if (!process.env.GITHUB_WORKSPACE) return ''
+
+  return process.env.GITHUB_WORKSPACE
 }

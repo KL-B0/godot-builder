@@ -1,7 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { checkRunnerCompatibility, getActionFolder, getRootFolder, getWorkspace } from '../src/godot-builder/action'
+import {
+  checkRunnerCompatibility,
+  getActionFolder,
+  getRootFolder,
+  getWorkspace
+} from '../src/godot-builder/action'
 
 describe('Action', () => {
   describe('runner compatibility check', () => {

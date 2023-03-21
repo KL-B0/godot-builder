@@ -27,6 +27,7 @@ function getUnixCommand(
   return `docker run \
     -w /github/workspace/ \
     --rm \
+    --privileged \
     -e GITHUB_WORKSPACE=/github/workspace \
     -e PROJECT_PATH="${config.projectPath}" \
     -e EXPORT_PRESET="${config.exportPreset}" \

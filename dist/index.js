@@ -63,29 +63,6 @@ exports["default"] = BuildConfig;
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -98,27 +75,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const exec_1 = __nccwpck_require__(1514);
+// import { getActionFolder } from './action'
 const action_1 = __nccwpck_require__(5268);
-const core = __importStar(__nccwpck_require__(2186));
-function run(image, config, debug = false, options = undefined) {
+function run(image, config, 
+// debug = false,
+options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.debug((0, action_1.getWorkspace)());
+        yield (0, exec_1.getExecOutput)('docker --version');
         const result = yield (0, exec_1.getExecOutput)('docker run', [
-            '-w /github/workspace/',
+            // '-w /github/workspace/',
             '--rm',
             '-e GITHUB_WORKSPACE=/github/workspace',
             `-e PROJECT_PATH="${config.projectPath}"`,
             `-e EXPORT_PRESET="${config.exportPreset}"`,
             `-e EXPORT_PATH="${config.exportPath}"`,
             `-e EXPORT_NAME="${config.exportName}"`,
-            `${debug ? '-e DEBUG=1' : ''}`,
-            `-v "${(0, action_1.getWorkspace)()}":"/github/workspace:z"`,
-            `-v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh:z"`,
-            `--entrypoint /build.sh`,
+            //`${debug ? '-e DEBUG=1' : ''}`,
+            `-v "${(0, action_1.getWorkspace)()}":/github/workspace`,
+            // `-v "/home/runner/work/godot-builder/dist/runners/linux/build.sh:/build.sh"`,
+            //`--entrypoint /build.sh`,
             `${image.generateTag()}`
         ], options);
-        core.debug(result.stdout);
-        return 0;
+        return `stdout: ${result.stdout} \n stderr: ${result.stderr}`;
     });
 }
 exports.run = run;
@@ -345,7 +323,7 @@ function main() {
         try {
             const buildConfig = new godot_builder_1.BuildConfig();
             const image = new godot_builder_1.Image(buildConfig);
-            yield (0, docker_1.run)(image, buildConfig);
+            core.debug(yield (0, docker_1.run)(image, buildConfig));
         }
         catch (error) {
             core.error(error.message);

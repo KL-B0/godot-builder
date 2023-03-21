@@ -8,7 +8,7 @@ async function main() {
     const buildConfig = new BuildConfig()
     const image = new Image(buildConfig)
 
-    await run(image, buildConfig)
+    core.debug(await run(image, buildConfig))
   } catch (error) {
     core.error((error as Error).message)
   }

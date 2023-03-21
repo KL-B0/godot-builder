@@ -95,24 +95,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
-const node_fs_1 = __nccwpck_require__(7561);
-const node_path_1 = __importDefault(__nccwpck_require__(9411));
 const exec_1 = __nccwpck_require__(1514);
 const action_1 = __nccwpck_require__(5268);
 const core = __importStar(__nccwpck_require__(2186));
 function run(image, config, debug = false, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        const githubHome = node_path_1.default.join('', '_github_home');
-        if (!(0, node_fs_1.existsSync)(githubHome))
-            (0, node_fs_1.mkdirSync)(githubHome);
-        const githubWorkflow = node_path_1.default.join('', '_github_workflow');
-        if (!(0, node_fs_1.existsSync)(githubWorkflow))
-            (0, node_fs_1.mkdirSync)(githubWorkflow);
+        core.debug((0, action_1.getWorkspace)());
         const result = yield (0, exec_1.getExecOutput)('docker run', [
             '-w /github/workspace/',
             '--rm',
@@ -122,8 +112,6 @@ function run(image, config, debug = false, options = undefined) {
             `-e EXPORT_PATH="${config.exportPath}"`,
             `-e EXPORT_NAME="${config.exportName}"`,
             `${debug ? '-e DEBUG=1' : ''}`,
-            `-v "${githubHome}":"/root:z"`,
-            `-v "${githubWorkflow}":"/github/workflow:z"`,
             `-v "${(0, action_1.getWorkspace)()}":"/github/workspace:z"`,
             `-v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh:z"`,
             `--entrypoint /build.sh`,

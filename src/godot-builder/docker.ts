@@ -1,5 +1,3 @@
-import {existsSync, mkdirSync} from 'node:fs'
-import path from 'node:path'
 import {getExecOutput, ExecOptions} from '@actions/exec'
 
 import {getActionFolder, getWorkspace} from './action'
@@ -14,10 +12,7 @@ export async function run(
   debug = false,
   options: ExecOptions | undefined = undefined
 ): Promise<number> {
-  const githubHome = path.join('', '_github_home')
-  if (!existsSync(githubHome)) mkdirSync(githubHome)
-  const githubWorkflow = path.join('', '_github_workflow')
-  if (!existsSync(githubWorkflow)) mkdirSync(githubWorkflow)
+  core.debug(getWorkspace())
 
   const result = await getExecOutput(
     'docker run',
@@ -30,8 +25,6 @@ export async function run(
       `-e EXPORT_PATH="${config.exportPath}"`,
       `-e EXPORT_NAME="${config.exportName}"`,
       `${debug ? '-e DEBUG=1' : ''}`,
-      `-v "${githubHome}":"/root:z"`,
-      `-v "${githubWorkflow}":"/github/workflow:z"`,
       `-v "${getWorkspace()}":"/github/workspace:z"`,
       `-v "${getActionFolder()}/runners/linux/build.sh:/build.sh:z"`,
       `--entrypoint /build.sh`,

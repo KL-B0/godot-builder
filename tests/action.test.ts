@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { checkRunnerCompatibility, getActionFolder, getRootFolder } from '../src/godot-builder/action'
+import { checkRunnerCompatibility, getActionFolder, getRootFolder, getWorkspace } from '../src/godot-builder/action'
 
 describe('Action', () => {
   describe('runner compatibility check', () => {
@@ -28,5 +28,11 @@ describe('Action', () => {
 
     expect(path.basename(actionFolder)).toBe('dist')
     expect(fs.existsSync(actionFolder)).toBe(true)
+  })
+
+  it('returns the workspace', () => {
+    process.env.GITHUB_WORKSPACE = 'test/'
+
+    expect(getWorkspace()).toBe('test/')
   })
 })

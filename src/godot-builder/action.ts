@@ -17,3 +17,7 @@ export function getActionFolder(): string {
 export function getRootFolder(): string {
   return path.dirname(path.dirname(path.dirname(__filename)))
 }
+
+export function getWorkspace(): string {
+  return process.env.GITHUB_WORKSPACE!;
+}

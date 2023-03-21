@@ -1,6 +1,6 @@
 import BuildConfig from './build-config'
 
-class ImageTag {
+class Image {
   readonly engineVersion: string
   readonly androidSupport: boolean
   readonly blenderSupport: boolean
@@ -16,4 +16,4 @@ class ImageTag {
   }
 }
 
-export default ImageTag
+export default Image

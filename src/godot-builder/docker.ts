@@ -23,7 +23,7 @@ export async function run(
     'docker run',
     [
       '-w /github/workspace/',
-      '-rm',
+      '--rm',
       '-e GITHUB_WORKSPACE=/github/workspace',
       `-e PROJECT_PATH = ${config.projectPath}`,
       `-e EXPORT_PRESET = ${config.exportPreset}`,

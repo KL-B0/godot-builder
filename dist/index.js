@@ -115,7 +115,7 @@ function run(image, config, debug = false, options = undefined) {
             (0, node_fs_1.mkdirSync)(githubWorkflow);
         const result = yield (0, exec_1.getExecOutput)('docker run', [
             '-w /github/workspace/',
-            '-rm',
+            '--rm',
             '-e GITHUB_WORKSPACE=/github/workspace',
             `-e PROJECT_PATH = ${config.projectPath}`,
             `-e EXPORT_PRESET = ${config.exportPreset}`,

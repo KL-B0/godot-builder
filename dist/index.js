@@ -77,29 +77,28 @@ exports.run = void 0;
 const exec_1 = __nccwpck_require__(1514);
 // import { getActionFolder } from './action'
 const action_1 = __nccwpck_require__(5268);
-function run(image, config, 
-// debug = false,
-options = undefined) {
+function run(image, config, debug = false, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield (0, exec_1.getExecOutput)('docker --version');
-        const result = yield (0, exec_1.getExecOutput)('docker run', [
-            // '-w /github/workspace/',
-            '--rm',
-            '-e GITHUB_WORKSPACE=/github/workspace',
-            `-e PROJECT_PATH="${config.projectPath}"`,
-            `-e EXPORT_PRESET="${config.exportPreset}"`,
-            `-e EXPORT_PATH="${config.exportPath}"`,
-            `-e EXPORT_NAME="${config.exportName}"`,
-            //`${debug ? '-e DEBUG=1' : ''}`,
-            `-v "${(0, action_1.getWorkspace)()}":/github/workspace`,
-            // `-v "/home/runner/work/godot-builder/dist/runners/linux/build.sh:/build.sh"`,
-            //`--entrypoint /build.sh`,
-            `${image.generateTag()}`
-        ], options);
+        const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config, debug), undefined, options);
         return `stdout: ${result.stdout} \n stderr: ${result.stderr}`;
     });
 }
 exports.run = run;
+function getUnixCommand(image, config, debug = false) {
+    return `docker run \
+    -w /github/workspace/ \
+    --rm \
+    -e GITHUB_WORKSPACE=/github/workspace \
+    -e PROJECT_PATH="${config.projectPath}" \
+    -e EXPORT_PRESET="${config.exportPreset}" \
+    -e EXPORT_PATH="${config.exportPath}" \
+    -e EXPORT_NAME="${config.exportName}" \
+    ${debug ? '-e DEBUG=1' : ''} \
+    -v ${(0, action_1.getWorkspace)()}:/github/workspace \
+    -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh" \
+    --entrypoint /build.sh \
+    ${image.generateTag()}`;
+}
 
 
 /***/ }),

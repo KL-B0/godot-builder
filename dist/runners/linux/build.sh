@@ -2,6 +2,8 @@
 
 cd $PROJECT_PATH
 
+ls
+
 if [[ ${DEBUG:+1} ]] ; then
   godot --headless --export-debug $EXPORT_PRESET $EXPORT_PATH/$EXPORT_NAME
 else

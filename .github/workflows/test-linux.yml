@@ -16,7 +16,7 @@ jobs:
         with:
           lfs: true
 
-      - name: Build windows artifact
+      - name: Build linux artifact
         uses: ./
         with:
           target-platform: 'linux'

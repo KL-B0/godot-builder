@@ -1,14 +1,13 @@
 import * as core from '@actions/core'
 
-import {BuildConfig, Image} from './godot-builder'
-import {run} from './godot-builder/docker'
+import {BuildConfig, Image, runDockerExport} from './godot-builder'
 
 async function main() {
   try {
     const buildConfig = new BuildConfig()
     const image = new Image(buildConfig)
 
-    core.debug(await run(image, buildConfig))
+    await runDockerExport(image, buildConfig)
   } catch (error) {
     core.error((error as Error).message)
   }

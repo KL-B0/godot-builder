@@ -3,7 +3,7 @@ import * as core from '@actions/core'
 import BuildConfig from '../src/godot-builder/build-config'
 import Image from '../src/godot-builder/image'
 
-// import { getUnixCommand } from '../src/godot-builder/docker'
+import {getUnixCommand} from '../src/godot-builder/docker'
 
 describe('Docker', () => {
   it('generates a unix docker command', () => {
@@ -29,12 +29,15 @@ describe('Docker', () => {
     spy.mockImplementationOnce(() => {
       return 'game.exe'
     })
+    spy.mockImplementationOnce(() => {
+      return 'release'
+    })
 
     const buildConfig = new BuildConfig()
     const image = new Image(buildConfig)
 
-    console.log(image)
+    expect(() => getUnixCommand(image, buildConfig)).not.toThrow()
 
-    expect(spy).toHaveBeenCalledTimes(7)
+    expect(spy).toHaveBeenCalledTimes(8)
   })
 })

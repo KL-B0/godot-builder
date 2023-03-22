@@ -4,7 +4,8 @@ import {
   projectPath,
   exportPreset,
   exportPath,
-  exportName
+  exportName,
+  exportMode
 } from './input'
 
 class BuildConfig {
@@ -14,6 +15,7 @@ class BuildConfig {
   readonly exportPreset: string
   readonly exportPath: string
   readonly exportName: string
+  readonly exportMode: string
 
   constructor() {
     this.engineVersion = engineVersion()
@@ -22,6 +24,7 @@ class BuildConfig {
     this.exportPreset = exportPreset()
     this.exportPath = exportPath()
     this.exportName = exportName()
+    this.exportMode = exportMode()
   }
 }
 

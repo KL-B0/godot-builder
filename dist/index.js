@@ -58,6 +58,7 @@ class BuildConfig {
         this.exportPreset = (0, input_1.exportPreset)();
         this.exportPath = (0, input_1.exportPath)();
         this.exportName = (0, input_1.exportName)();
+        this.exportMode = (0, input_1.exportMode)();
     }
 }
 exports["default"] = BuildConfig;
@@ -80,17 +81,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = void 0;
+exports.getUnixCommand = void 0;
 const exec_1 = __nccwpck_require__(1514);
 const action_1 = __nccwpck_require__(5268);
-function run(image, config, debug = false, options = undefined) {
+function runDockerExport(image, config, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config, debug), undefined, options);
+        const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config), undefined, options);
         return `stdout: ${result.stdout} \n stderr: ${result.stderr}`;
     });
 }
-exports.run = run;
-function getUnixCommand(image, config, debug = false) {
+exports["default"] = runDockerExport;
+function getUnixCommand(image, config) {
     return `docker run \
     -w /github/workspace/ \
     --rm \
@@ -99,13 +100,14 @@ function getUnixCommand(image, config, debug = false) {
     -e EXPORT_PRESET="${config.exportPreset}" \
     -e EXPORT_PATH="${config.exportPath}" \
     -e EXPORT_NAME="${config.exportName}" \
-    ${debug ? '-e DEBUG=1' : ''} \
+    ${config.exportMode === 'debug' ? '-e DEBUG=1' : ''} \
     -v ${(0, action_1.getWorkspace)()}:/github/workspace \
     -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh" \
     --entrypoint /bin/bash \
     ${image.generateTag()} \
     -c /build.sh`;
 }
+exports.getUnixCommand = getUnixCommand;
 
 
 /***/ }),
@@ -140,11 +142,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Image = exports.BuildConfig = void 0;
+exports.runDockerExport = exports.Image = exports.BuildConfig = void 0;
 const build_config_1 = __importDefault(__nccwpck_require__(5672));
 exports.BuildConfig = build_config_1.default;
 const image_1 = __importDefault(__nccwpck_require__(8118));
 exports.Image = image_1.default;
+const docker_1 = __importDefault(__nccwpck_require__(8818));
+exports.runDockerExport = docker_1.default;
 
 
 /***/ }),
@@ -318,13 +322,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const godot_builder_1 = __nccwpck_require__(5029);
-const docker_1 = __nccwpck_require__(8818);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const buildConfig = new godot_builder_1.BuildConfig();
             const image = new godot_builder_1.Image(buildConfig);
-            core.debug(yield (0, docker_1.run)(image, buildConfig));
+            yield (0, godot_builder_1.runDockerExport)(image, buildConfig);
         }
         catch (error) {
             core.error(error.message);

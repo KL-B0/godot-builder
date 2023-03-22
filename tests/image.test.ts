@@ -28,6 +28,9 @@ describe('ImageTag', () => {
       spy.mockImplementationOnce(() => {
         return 'game.exe'
       })
+      spy.mockImplementationOnce(() => {
+        return 'release'
+      })
 
       const buildConfig = new BuildConfig()
       const image = new Image(buildConfig)
@@ -36,7 +39,7 @@ describe('ImageTag', () => {
       expect(image.androidSupport).toBe(false)
       expect(image.blenderSupport).toBe(false)
 
-      expect(spy).toHaveBeenCalledTimes(7)
+      expect(spy).toHaveBeenCalledTimes(8)
     })
   })
 
@@ -64,13 +67,16 @@ describe('ImageTag', () => {
       spy.mockImplementationOnce(() => {
         return 'game.exe'
       })
+      spy.mockImplementationOnce(() => {
+        return 'release'
+      })
 
       const buildConfig = new BuildConfig()
       const image = new Image(buildConfig)
 
       expect(image.generateTag()).toBe('klb0/godot:4.0')
 
-      expect(spy).toHaveBeenCalledTimes(7)
+      expect(spy).toHaveBeenCalledTimes(8)
     })
   })
 })

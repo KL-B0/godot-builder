@@ -96,7 +96,22 @@ describe('Input', () => {
       }).toThrow()
     })
 
-    it('throws on no export presets configuration found', () => {
+    it('throws on no export presets file found', () => {
+      const spy = jest.spyOn(core, 'getInput')
+      spy.mockImplementationOnce(() => {
+        return 'Windows Desktop'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'invalid-project/'
+      })
+
+      expect(() => {
+        exportPreset()
+      }).toThrow()
+      expect(spy).toHaveBeenCalledTimes(2)
+    })
+
+    it('throws on missing export presets configuration', () => {
       const spy = jest.spyOn(core, 'getInput')
       spy.mockImplementationOnce(() => {
         return 'Non-existing preset'

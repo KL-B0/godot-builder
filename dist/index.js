@@ -96,9 +96,10 @@ function getUnixCommand(image, config, debug = false) {
     -e EXPORT_NAME="${config.exportName}" \
     ${debug ? '-e DEBUG=1' : ''} \
     -v ${(0, action_1.getWorkspace)()}:/github/workspace \
-    -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/home/build.sh" \
-    --entrypoint /home/build.sh \
-    ${image.generateTag()}`;
+    -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh" \
+    --entrypoint /bin/bash \
+    ${image.generateTag()} \
+    -c /build.sh`;
 }
 
 

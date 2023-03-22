@@ -10,15 +10,40 @@ import {
 
 describe('Action', () => {
   describe('runner compatibility check', () => {
-    it('throws for unsuppored platforms', () => {
-      switch (process.platform) {
-        case 'darwin':
-        case 'linux':
-          expect(() => checkRunnerCompatibility()).not.toThrow()
-          break
-        default:
-          expect(() => checkRunnerCompatibility()).toThrow()
-      }
+    it('throws on unrecognized runner', () => {
+      expect(() => checkRunnerCompatibility('openbsd', 'windows')).toThrow()
+    })
+
+    it('throws on unsupported target', () => {
+      expect(() => checkRunnerCompatibility('linux', 'openbsd')).toThrow()
+    })
+
+    it('throws on mismatched target platform and runner', () => {
+      // Check the Apple family targets
+      ['win32', 'linux'].forEach(runner => {
+        ['macos', 'ios'].forEach(target => {
+          expect(() => checkRunnerCompatibility(runner, target)).toThrow()
+        });
+      });
+
+      // Check the other targets
+      ['win32', 'darwin'].forEach(runner => {
+        ['windows', 'linux', 'android'].forEach(target => {
+          expect(() => checkRunnerCompatibility(runner, target)).toThrow()
+        });
+      });
+    })
+
+    it('returns on matched target platform and runner', () => {
+      // Check the Apple family targets
+      ['macos', 'ios'].forEach(target => {
+        expect(() => checkRunnerCompatibility('darwin', target)).not.toThrow()
+      });
+
+      // Check the other targets
+      ['windows', 'linux', 'android'].forEach(target => {
+        expect(() => checkRunnerCompatibility('linux', target)).not.toThrow()
+      });
     })
   })
 
@@ -28,7 +53,6 @@ describe('Action', () => {
 
   it('returns the action folder', () => {
     const actionFolder = getActionFolder()
-    console.log(actionFolder)
 
     expect(path.basename(actionFolder)).toBe('dist')
   })

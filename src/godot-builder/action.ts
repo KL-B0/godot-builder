@@ -1,12 +1,21 @@
 import path from 'node:path'
+import { supportedConfigurations } from './settings'
 
-export const supportedRunners: string[] = ['darwin', 'linux']
 
-export function checkRunnerCompatibility(): void {
-  if (!supportedRunners.includes(process.platform))
+export function checkRunnerCompatibility(runner: string, target: string): void {
+  // Check for an unsupported runner
+  if (!['darwin', 'linux'].includes(runner))
     throw new Error(
-      `The current platform "${process.platform}" is not supported`
+      `The current runner "${runner}" is not supported`
     )
+
+  // Check for an unsupported target
+  if (!(target in supportedConfigurations))
+    throw new Error(`The target platform "${target}" is not currently supported`)
+
+  const expectedRunner: string = supportedConfigurations[target]
+  if (runner !== expectedRunner)
+    throw new Error(`The target platform "${target}" requires "${expectedRunner}" runner, but "${runner}" was instead provided`)
 }
 
 export function getActionFolder(): string {

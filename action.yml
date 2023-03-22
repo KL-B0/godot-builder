@@ -7,27 +7,31 @@ branding:
   color: 'gray-dark'
 
 inputs:
-  engine-version:
-    description: 'Godot engine version'
-    required: true
-    default: 'latest'
-  target-platform:
-    description: 'Export target platform'
-    required: true
-  project-path:
-    description: 'Project folder path'
-    required: true
-    default: '.'
   export-preset:
-    description: 'Export preset name'
+    description: 'The name of the export preset to use for building'
     required: true
-  export-path:
-    description: 'Export output path'
-    required: true
-    default: 'out/'
   export-name:
-    description: 'Export project name'
+    description: 'The name of the output artifact, including its extension'
     required: true
+  target-platform:
+    description: 'The platform you are planning to target'
+    required: true
+  engine-version:
+    description: 'The version of the Godot engine you are targeting'
+    required: false
+    default: 'latest'
+  export-path:
+    description: 'The path where the build should be stored'
+    required: false
+    default: 'out/'
+  export-mode:
+    description: 'The export mode, choosen between "debug" and "release"'
+    required: false
+    default: 'release'
+  project-path:
+    description: 'The relative path to the project'
+    required: false
+    default: '.'
 
 runs:
   using: 'node16'

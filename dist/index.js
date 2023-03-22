@@ -209,7 +209,7 @@ function targetPlatform() {
 }
 exports.targetPlatform = targetPlatform;
 function projectPath() {
-    const projPath = getInput('project-path') || './';
+    const projPath = getInput('project-path') || '.';
     // Check if the project path actually exists
     if (!(0, node_fs_1.existsSync)((0, node_path_1.join)(projPath, 'project.godot')))
         throw new Error(`No project was found at "${projectPath}"`);

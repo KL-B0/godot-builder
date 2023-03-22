@@ -34,7 +34,7 @@ export function targetPlatform(): string {
 }
 
 export function projectPath(): string {
-  const projPath = getInput('project-path') || './'
+  const projPath = getInput('project-path') || '.'
 
   // Check if the project path actually exists
   if (!existsSync(join(projPath, 'project.godot')))

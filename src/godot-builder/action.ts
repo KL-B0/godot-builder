@@ -5,7 +5,7 @@ export const supportedRunners: string[] = ['darwin', 'linux']
 export function checkRunnerCompatibility(): void {
   if (!supportedRunners.includes(process.platform))
     throw new Error(
-      'The current platform "${process.platform}" is not supported'
+      `The current platform "${process.platform}" is not supported`
     )
 }
 

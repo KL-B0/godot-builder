@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import fs from 'node:fs'
 import path from 'node:path'
 
-import {engineVersions, targetPlatforms} from './input-validation'
+import { engineVersions, targetPlatforms } from './input-validation'
 
 function getInput(parameter: string): string | undefined {
   const input = core.getInput(parameter)
@@ -12,7 +12,7 @@ function getInput(parameter: string): string | undefined {
 export function engineVersion(): string {
   const version = getInput('engine-version') || 'latest'
   if (!engineVersions.includes(version))
-    throw new Error('Engine version "${engineVersion}" is not supported')
+    throw new Error(`Engine version "${engineVersion}" is not supported`)
 
   return version
 }
@@ -22,7 +22,7 @@ export function targetPlatform(): string {
   if (!platform) throw new Error('No target platform was specified')
 
   if (!targetPlatforms.includes(platform))
-    throw new Error('Target platform "${targetPlatform}" is not supported')
+    throw new Error(`Target platform "${targetPlatform}" is not supported`)
 
   return platform
 }
@@ -30,7 +30,7 @@ export function targetPlatform(): string {
 export function projectPath(): string {
   const projPath = getInput('project-path') || './'
   if (!fs.existsSync(path.join(projPath, 'project.godot')))
-    throw new Error('No project was found at "${projectPath}"')
+    throw new Error(`No project was found at "${projectPath}"`)
 
   return projPath
 }
@@ -46,7 +46,7 @@ export function exportPreset(): string {
 
   if (!fs.readFileSync(exportPresetsPath).includes(preset))
     throw new Error(
-      'Export preset "${exportPreset}" is not present in the configuration'
+      `Export preset "${exportPreset}" is not present in the configuration`
     )
 
   return preset

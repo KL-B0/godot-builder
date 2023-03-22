@@ -16,11 +16,6 @@ jobs:
         with:
           lfs: true
 
-      - name: Update build script permissions
-        run: |
-          chmod +x dist/runners/linux/build.sh
-          ls -l dist/runners/linux/build.sh
-      
       - name: Build windows artifact
         uses: ./
         with:

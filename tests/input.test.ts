@@ -6,7 +6,8 @@ import {
   projectPath,
   exportPreset,
   exportPath,
-  exportName
+  exportName,
+  exportMode
 } from '../src/godot-builder/input'
 import {
   supportedConfigurations,
@@ -165,6 +166,36 @@ describe('Input', () => {
       const mockValue = 'project'
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
       expect(exportName()).toStrictEqual(mockValue)
+      expect(spy).toHaveBeenCalled()
+    })
+  })
+
+  describe('exportMode', () => {
+    it('returns the default value', () => {
+      expect(exportMode()).toStrictEqual('release')
+    })
+
+    it('throws on unsupported values', () => {
+      const mockValue = 'invalid'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+
+      expect(() => {
+        exportMode()
+      }).toThrow()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('returns the "debug" value', () => {
+      const mockValue = 'debug'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+      expect(exportMode()).toStrictEqual(mockValue)
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('returns the "release" value', () => {
+      const mockValue = 'release'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+      expect(exportMode()).toStrictEqual(mockValue)
       expect(spy).toHaveBeenCalled()
     })
   })

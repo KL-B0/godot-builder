@@ -178,7 +178,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.exportName = exports.exportPath = exports.exportPreset = exports.projectPath = exports.targetPlatform = exports.engineVersion = void 0;
+exports.exportMode = exports.exportName = exports.exportPath = exports.exportPreset = exports.projectPath = exports.targetPlatform = exports.engineVersion = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const node_fs_1 = __nccwpck_require__(7561);
 const node_path_1 = __nccwpck_require__(9411);
@@ -237,11 +237,20 @@ function exportPath() {
 exports.exportPath = exportPath;
 function exportName() {
     const name = getInput('export-name');
+    // Check if the export name is not set
     if (!name)
         throw new Error('No export name was specified');
     return name;
 }
 exports.exportName = exportName;
+function exportMode() {
+    const mode = getInput('export-name') || 'release';
+    // Check if the export mode if between "debug" and "release"
+    if (!['debug', 'release'].includes(mode))
+        throw new Error(`Export mode must be either "debug" or "release", instead "${mode}" was specified`);
+    return mode;
+}
+exports.exportMode = exportMode;
 
 
 /***/ }),

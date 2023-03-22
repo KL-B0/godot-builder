@@ -70,7 +70,20 @@ export function exportPath(): string {
 export function exportName(): string {
   const name = getInput('export-name')
 
+  // Check if the export name is not set
   if (!name) throw new Error('No export name was specified')
 
   return name
+}
+
+export function exportMode(): string {
+  const mode = getInput('export-name') || 'release'
+
+  // Check if the export mode if between "debug" and "release"
+  if (!['debug', 'release'].includes(mode))
+    throw new Error(
+      `Export mode must be either "debug" or "release", instead "${mode}" was specified`
+    )
+
+  return mode
 }

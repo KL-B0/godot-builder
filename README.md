@@ -5,13 +5,15 @@
 
 Build your Godot 4 projects!
 
+NOTE: The project is still in a early stage and is espected to be mature by release 1.0.0
+
 ## Project status
 
 | Platform | Status                                                                                                                                                                             |
 | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Windows  | [![Windows build](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml) |
+| Windows  | [![Windows](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml)       |
 | macOS    | 🗓️                                                                                                                                                                                 |
-| Linux    | 🚧                                                                                                                                                                                 |
+| Linux    | [![Linux](https://github.com/KL-B0/godot-builder/actions/workflows/test-linux.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-linux.yml)             |
 | Android  | 🗓️                                                                                                                                                                                 |
 | iOS      | 🗓️                                                                                                                                                                                 |
 

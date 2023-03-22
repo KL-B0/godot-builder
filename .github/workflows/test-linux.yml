@@ -1,0 +1,29 @@
+name: Linux build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test 🧪
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+        with:
+          lfs: true
+
+      - name: Build windows artifact
+        uses: ./
+        with:
+          target-platform: 'linux'
+          project-path: 'test-project/'
+          export-preset: 'Linux/X11'
+          export-name: 'game.x86_64'
+      
+      - name: Check for artifact existence
+        run: |
+          [ -f test-project/out/game.x86_64 ]

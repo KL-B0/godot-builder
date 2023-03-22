@@ -20,30 +20,30 @@ describe('Action', () => {
 
     it('throws on mismatched target platform and runner', () => {
       // Check the Apple family targets
-      ['win32', 'linux'].forEach(runner => {
-        ['macos', 'ios'].forEach(target => {
+      ;['win32', 'linux'].forEach(runner => {
+        ;['macos', 'ios'].forEach(target => {
           expect(() => checkRunnerCompatibility(runner, target)).toThrow()
-        });
-      });
+        })
+      })
 
       // Check the other targets
-      ['win32', 'darwin'].forEach(runner => {
-        ['windows', 'linux', 'android'].forEach(target => {
+      ;['win32', 'darwin'].forEach(runner => {
+        ;['windows', 'linux', 'android'].forEach(target => {
           expect(() => checkRunnerCompatibility(runner, target)).toThrow()
-        });
-      });
+        })
+      })
     })
 
     it('returns on matched target platform and runner', () => {
       // Check the Apple family targets
-      ['macos', 'ios'].forEach(target => {
+      ;['macos', 'ios'].forEach(target => {
         expect(() => checkRunnerCompatibility('darwin', target)).not.toThrow()
-      });
+      })
 
       // Check the other targets
-      ['windows', 'linux', 'android'].forEach(target => {
+      ;['windows', 'linux', 'android'].forEach(target => {
         expect(() => checkRunnerCompatibility('linux', target)).not.toThrow()
-      });
+      })
     })
   })
 

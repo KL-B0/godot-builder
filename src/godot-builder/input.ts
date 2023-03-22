@@ -1,9 +1,10 @@
 import * as core from '@actions/core'
-import fs from 'node:fs'
-import path from 'node:path'
+import {existsSync, readFileSync} from 'node:fs'
+import {join} from 'node:path'
 
-import {engineVersions, targetPlatforms} from './input-validation'
+import {supportedConfigurations, supportedEngineVersions} from './settings'
 
+// General function to acquire input parameters
 function getInput(parameter: string): string | undefined {
   const input = core.getInput(parameter)
   if (input || input !== '') return input
@@ -11,7 +12,9 @@ function getInput(parameter: string): string | undefined {
 
 export function engineVersion(): string {
   const version = getInput('engine-version') || 'latest'
-  if (!engineVersions.includes(version))
+
+  // Check if the engine version is supported
+  if (!supportedEngineVersions.includes(version))
     throw new Error(`Engine version "${engineVersion}" is not supported`)
 
   return version
@@ -19,9 +22,12 @@ export function engineVersion(): string {
 
 export function targetPlatform(): string {
   const platform = getInput('target-platform')
+
+  // Check if the target platform is not set
   if (!platform) throw new Error('No target platform was specified')
 
-  if (!targetPlatforms.includes(platform))
+  // Check if the target platform is supported
+  if (!Object.keys(supportedConfigurations).includes(platform))
     throw new Error(`Target platform "${targetPlatform}" is not supported`)
 
   return platform
@@ -29,7 +35,9 @@ export function targetPlatform(): string {
 
 export function projectPath(): string {
   const projPath = getInput('project-path') || './'
-  if (!fs.existsSync(path.join(projPath, 'project.godot')))
+
+  // Check if the project path actually exists
+  if (!existsSync(join(projPath, 'project.godot')))
     throw new Error(`No project was found at "${projectPath}"`)
 
   return projPath
@@ -37,14 +45,17 @@ export function projectPath(): string {
 
 export function exportPreset(): string {
   const preset = getInput('export-preset')
-  const exportPresetsPath = path.join(projectPath(), 'export_presets.cfg')
+  const exportPresetsPath = join(projectPath(), 'export_presets.cfg')
 
+  // Check if the export preset is not set
   if (!preset) throw new Error('No export preset was specified')
 
-  if (!fs.existsSync(exportPresetsPath))
+  // Check if the export presets file actually exists
+  if (!existsSync(exportPresetsPath))
     throw new Error('No export presets configuration was found')
 
-  if (!fs.readFileSync(exportPresetsPath).includes(preset))
+  // Check if the export presets file contains the selected configuration
+  if (!readFileSync(exportPresetsPath).includes(preset))
     throw new Error(
       `Export preset "${exportPreset}" is not present in the configuration`
     )

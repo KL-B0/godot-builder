@@ -35,7 +35,7 @@ function getUnixCommand(
     -e EXPORT_NAME="${config.exportName}" \
     ${debug ? '-e DEBUG=1' : ''} \
     -v ${getWorkspace()}:/github/workspace \
-    -v "${getActionFolder()}/runners/linux/build.sh:/build.sh" \
-    --entrypoint /build.sh \
+    -v "${getActionFolder()}/runners/linux/build.sh:/home/build.sh" \
+    --entrypoint /home/build.sh \
     ${image.generateTag()}`
 }

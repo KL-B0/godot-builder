@@ -248,7 +248,7 @@ function exportName() {
 }
 exports.exportName = exportName;
 function exportMode() {
-    const mode = getInput('export-name') || 'release';
+    const mode = getInput('export-mode') || 'release';
     // Check if the export mode if between "debug" and "release"
     if (!['debug', 'release'].includes(mode))
         throw new Error(`Export mode must be either "debug" or "release", instead "${mode}" was specified`);

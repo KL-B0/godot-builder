@@ -77,7 +77,7 @@ export function exportName(): string {
 }
 
 export function exportMode(): string {
-  const mode = getInput('export-name') || 'release'
+  const mode = getInput('export-mode') || 'release'
 
   // Check if the export mode if between "debug" and "release"
   if (!['debug', 'release'].includes(mode))

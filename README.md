@@ -7,13 +7,13 @@ Build your Godot 4 projects!
 
 ## Project status
 
-| Platform | Status |
-| :------- | :----: |
-| Windows  |   🚧   |
-| macOS    |   🗓️   |
-| Linux    |   🚧   |
-| Android  |   🗓️   |
-| iOS      |   🗓️   |
+| Platform | Status                                                                                                                                                                             |
+| :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Windows  | [![Windows build](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml) |
+| macOS    | 🗓️                                                                                                                                                                                 |
+| Linux    | 🚧                                                                                                                                                                                 |
+| Android  | 🗓️                                                                                                                                                                                 |
+| iOS      | 🗓️                                                                                                                                                                                 |
 
 🚧 -> Work in progress
 

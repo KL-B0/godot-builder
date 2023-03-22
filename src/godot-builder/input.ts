@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { engineVersions, targetPlatforms } from './input-validation'
+import {engineVersions, targetPlatforms} from './input-validation'
 
 function getInput(parameter: string): string | undefined {
   const input = core.getInput(parameter)

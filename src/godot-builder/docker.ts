@@ -1,6 +1,5 @@
 import {getExecOutput, ExecOptions} from '@actions/exec'
 
-// import { getActionFolder } from './action'
 import {getActionFolder, getWorkspace} from './action'
 import BuildConfig from './build-config'
 import Image from './image'

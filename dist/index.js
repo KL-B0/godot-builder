@@ -15,7 +15,7 @@ const node_path_1 = __importDefault(__nccwpck_require__(9411));
 exports.supportedRunners = ['darwin', 'linux'];
 function checkRunnerCompatibility() {
     if (!exports.supportedRunners.includes(process.platform))
-        throw new Error('The current platform "${process.platform}" is not supported');
+        throw new Error(`The current platform "${process.platform}" is not supported`);
 }
 exports.checkRunnerCompatibility = checkRunnerCompatibility;
 function getActionFolder() {
@@ -75,7 +75,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const exec_1 = __nccwpck_require__(1514);
-// import { getActionFolder } from './action'
 const action_1 = __nccwpck_require__(5268);
 function run(image, config, debug = false, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -230,7 +229,7 @@ function getInput(parameter) {
 function engineVersion() {
     const version = getInput('engine-version') || 'latest';
     if (!input_validation_1.engineVersions.includes(version))
-        throw new Error('Engine version "${engineVersion}" is not supported');
+        throw new Error(`Engine version "${engineVersion}" is not supported`);
     return version;
 }
 exports.engineVersion = engineVersion;
@@ -239,14 +238,14 @@ function targetPlatform() {
     if (!platform)
         throw new Error('No target platform was specified');
     if (!input_validation_1.targetPlatforms.includes(platform))
-        throw new Error('Target platform "${targetPlatform}" is not supported');
+        throw new Error(`Target platform "${targetPlatform}" is not supported`);
     return platform;
 }
 exports.targetPlatform = targetPlatform;
 function projectPath() {
     const projPath = getInput('project-path') || './';
     if (!node_fs_1.default.existsSync(node_path_1.default.join(projPath, 'project.godot')))
-        throw new Error('No project was found at "${projectPath}"');
+        throw new Error(`No project was found at "${projectPath}"`);
     return projPath;
 }
 exports.projectPath = projectPath;
@@ -258,7 +257,7 @@ function exportPreset() {
     if (!node_fs_1.default.existsSync(exportPresetsPath))
         throw new Error('No export presets configuration was found');
     if (!node_fs_1.default.readFileSync(exportPresetsPath).includes(preset))
-        throw new Error('Export preset "${exportPreset}" is not present in the configuration');
+        throw new Error(`Export preset "${exportPreset}" is not present in the configuration`);
     return preset;
 }
 exports.exportPreset = exportPreset;

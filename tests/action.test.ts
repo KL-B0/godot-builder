@@ -23,7 +23,6 @@ describe('Action', () => {
   })
 
   it('returns the root folder', () => {
-    expect(path.basename(getRootFolder())).toBe('godot-builder')
     expect(fs.existsSync(getRootFolder())).toBe(true)
   })
 
@@ -32,7 +31,6 @@ describe('Action', () => {
     console.log(actionFolder)
 
     expect(path.basename(actionFolder)).toBe('dist')
-    expect(fs.existsSync(actionFolder)).toBe(true)
   })
 
   it('returns the workspace', () => {

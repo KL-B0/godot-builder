@@ -23,7 +23,7 @@ function getActionFolder() {
 }
 exports.getActionFolder = getActionFolder;
 function getRootFolder() {
-    return node_path_1.default.dirname(node_path_1.default.dirname(node_path_1.default.dirname(__filename)));
+    return node_path_1.default.dirname(node_path_1.default.dirname(__filename));
 }
 exports.getRootFolder = getRootFolder;
 function getWorkspace() {
@@ -79,8 +79,6 @@ const exec_1 = __nccwpck_require__(1514);
 const action_1 = __nccwpck_require__(5268);
 function run(image, config, debug = false, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield (0, exec_1.getExecOutput)('ls /home/runner/work/godot-builder/godot-builder/');
-        yield (0, exec_1.getExecOutput)('ls /home/runner/work/godot-builder/dist/runners/linux');
         const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config, debug), undefined, options);
         return `stdout: ${result.stdout} \n stderr: ${result.stderr}`;
     });
@@ -97,10 +95,10 @@ function getUnixCommand(image, config, debug = false) {
     -e EXPORT_NAME="${config.exportName}" \
     ${debug ? '-e DEBUG=1' : ''} \
     -v ${(0, action_1.getWorkspace)()}:/github/workspace \
-    -v "${(0, action_1.getActionFolder)()}/runners/linux/:/scripts/" \
+    -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh" \
     --entrypoint /bin/bash \
     ${image.generateTag()} \
-    -c scripts/build.sh`;
+    -c /build.sh`;
 }
 
 

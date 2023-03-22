@@ -26,4 +26,4 @@ jobs:
       
       - name: Check for artifact existence
         run: |
-          [ -f out/game.exe ]
+          [ -f test-project/out/game.exe ]

@@ -11,6 +11,9 @@ export async function run(
   debug = false,
   options: ExecOptions | undefined = undefined
 ): Promise<string> {
+  await getExecOutput('ls /home/runner/work/godot-builder/godot-builder/')
+  await getExecOutput('ls /home/runner/work/godot-builder/dist/runners/linux')
+
   const result = await getExecOutput(
     getUnixCommand(image, config, debug),
     undefined,
@@ -27,7 +30,6 @@ function getUnixCommand(
   return `docker run \
     -w /github/workspace/ \
     --rm \
-    --privileged \
     -e GITHUB_WORKSPACE=/github/workspace \
     -e PROJECT_PATH="${config.projectPath}" \
     -e EXPORT_PRESET="${config.exportPreset}" \
@@ -35,8 +37,8 @@ function getUnixCommand(
     -e EXPORT_NAME="${config.exportName}" \
     ${debug ? '-e DEBUG=1' : ''} \
     -v ${getWorkspace()}:/github/workspace \
-    -v "${getActionFolder()}/runners/linux/build.sh:/build.sh" \
+    -v "${getActionFolder()}/runners/linux/:/scripts/" \
     --entrypoint /bin/bash \
     ${image.generateTag()} \
-    -c /build.sh`
+    -c scripts/build.sh`
 }

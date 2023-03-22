@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 
 import BuildConfig from '../src/godot-builder/build-config'
-import ImageTag from '../src/godot-builder/image-tag'
+import Image from '../src/godot-builder/image'
 
 describe('ImageTag', () => {
   describe('constructor', () => {
@@ -30,11 +30,11 @@ describe('ImageTag', () => {
       })
 
       const buildConfig = new BuildConfig()
-      const imageTag = new ImageTag(buildConfig)
+      const image = new Image(buildConfig)
 
-      expect(imageTag.engineVersion).toBe('4.0')
-      expect(imageTag.androidSupport).toBe(false)
-      expect(imageTag.blenderSupport).toBe(false)
+      expect(image.engineVersion).toBe('4.0')
+      expect(image.androidSupport).toBe(false)
+      expect(image.blenderSupport).toBe(false)
 
       expect(spy).toHaveBeenCalledTimes(7)
     })
@@ -66,9 +66,9 @@ describe('ImageTag', () => {
       })
 
       const buildConfig = new BuildConfig()
-      const imageTag = new ImageTag(buildConfig)
+      const image = new Image(buildConfig)
 
-      expect(imageTag.generateTag()).toBe('4.0')
+      expect(image.generateTag()).toBe('klb0/godot:4.0')
 
       expect(spy).toHaveBeenCalledTimes(7)
     })

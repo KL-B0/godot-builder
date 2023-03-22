@@ -1,4 +1,4 @@
 import BuildConfig from './build-config'
-import ImageTag from './image-tag'
+import Image from './image'
 
-export {BuildConfig, ImageTag}
+export {BuildConfig, Image}

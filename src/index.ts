@@ -1,12 +1,14 @@
 import * as core from '@actions/core'
 
-import {BuildConfig, ImageTag} from './godot-builder'
+import {BuildConfig, Image} from './godot-builder'
+import {run} from './godot-builder/docker'
 
 async function main() {
   try {
     const buildConfig = new BuildConfig()
-    const imageTag = new ImageTag(buildConfig)
-    console.log(imageTag.generateTag())
+    const image = new Image(buildConfig)
+
+    core.debug(await run(image, buildConfig))
   } catch (error) {
     core.error((error as Error).message)
   }

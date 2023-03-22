@@ -1,6 +1,6 @@
 import BuildConfig from './build-config'
 
-class ImageTag {
+class Image {
   readonly engineVersion: string
   readonly androidSupport: boolean
   readonly blenderSupport: boolean
@@ -12,8 +12,8 @@ class ImageTag {
   }
 
   generateTag(): string {
-    return this.engineVersion
+    return `klb0/godot:${this.engineVersion}`
   }
 }
 
-export default ImageTag
+export default Image

@@ -91,6 +91,21 @@ describe('Input', () => {
       }).toThrow()
     })
 
+    it('throws on no export presets configuration found', () => {
+      const spy = jest.spyOn(core, 'getInput')
+      spy.mockImplementationOnce(() => {
+        return 'Non-existing preset'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'test-project/'
+      })
+
+      expect(() => {
+        exportPreset()
+      }).toThrow()
+      expect(spy).toHaveBeenCalledTimes(2)
+    })
+
     it('throws on unsupported values', () => {
       const spy = jest.spyOn(core, 'getInput')
       spy.mockImplementationOnce(() => {

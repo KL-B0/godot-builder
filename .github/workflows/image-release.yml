@@ -1,4 +1,4 @@
-name: Manual release 🚀
+name: Image release 💿
 
 on:
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       
       - name: Build and push the base image
-        if: ! ${{ inputs.latest }}
+        if: ${{ inputs.latest }} == false
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |
@@ -39,7 +39,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
       
       - name: Build and push the latest base image
-        if: ${{ inputs.latest }}
+        if: ${{ inputs.latest }} == true
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |
@@ -51,7 +51,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
       
       - name: Build and push the linux image variant
-        if: ! ${{ inputs.latest }}
+        if: ${{ inputs.latest }} == false
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |
@@ -62,7 +62,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}-linux
       
       - name: Build and push the latest linux image variant
-        if: ${{ inputs.latest }}
+        if: ${{ inputs.latest }} == true
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |

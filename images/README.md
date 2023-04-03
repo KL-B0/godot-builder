@@ -10,7 +10,7 @@ Mono builds are currently not supported, but may be in the future.
 
 ### Base image
 
-It's an image which contains the Godot engine and its related export templates.
+It's an image which contains the Godot engine.
 
 This serves as a base for platform-specific images, and should not be used directly.
 

@@ -120,12 +120,13 @@ exports.getUnixCommand = getUnixCommand;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 class Image {
     constructor(config) {
+        this.targetPlatform = config.targetPlatform;
         this.engineVersion = config.engineVersion;
         this.androidSupport = false;
         this.blenderSupport = false;
     }
     generateTag() {
-        return `klb0/godot:${this.engineVersion}`;
+        return `klb0/godot:${this.engineVersion}-${this.targetPlatform}`;
     }
 }
 exports["default"] = Image;

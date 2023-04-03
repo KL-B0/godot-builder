@@ -37,6 +37,41 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
   
+  windows-image:
+    name: Windows image 💿
+    runs-on: ubuntu-latest
+    needs: [base-image]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      - name: Push the image
+        uses: docker/build-push-action@v4.0.0
+        with:
+          build-args: |
+            GODOT_VERSION=${{ github.event.inputs.version }}
+          file: images/windows/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}-windows
+      
+      - name: Label as latest
+        if: ${{ inputs.latest == true }}
+        uses: docker/build-push-action@v4.0.0
+        with:
+          build-args: |
+            GODOT_VERSION=${{ github.event.inputs.version }}
+          file: images/windows/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USER }}/godot:latest-windows
+
   linux-image:
     name: Linux image 💿
     runs-on: ubuntu-latest

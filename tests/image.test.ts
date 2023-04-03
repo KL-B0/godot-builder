@@ -44,7 +44,7 @@ describe('ImageTag', () => {
   })
 
   describe('generateTag', () => {
-    it('generates a suitable base image', () => {
+    it('generates a suitable windows image', () => {
       const spy = jest.spyOn(core, 'getInput')
       spy.mockImplementationOnce(() => {
         return '4.0'
@@ -74,7 +74,44 @@ describe('ImageTag', () => {
       const buildConfig = new BuildConfig()
       const image = new Image(buildConfig)
 
-      expect(image.generateTag()).toBe('klb0/godot:4.0')
+      expect(image.generateTag()).toBe('klb0/godot:4.0-windows')
+
+      expect(spy).toHaveBeenCalledTimes(8)
+    })
+  })
+
+  describe('generateTag', () => {
+    it('generates a suitable linux image', () => {
+      const spy = jest.spyOn(core, 'getInput')
+      spy.mockImplementationOnce(() => {
+        return '4.0'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'linux'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'test-project/'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'Linux/X11'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'test-project/'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'build/linux'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'game.x86_64'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'release'
+      })
+
+      const buildConfig = new BuildConfig()
+      const image = new Image(buildConfig)
+
+      expect(image.generateTag()).toBe('klb0/godot:4.0-linux')
 
       expect(spy).toHaveBeenCalledTimes(8)
     })

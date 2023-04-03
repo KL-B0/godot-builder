@@ -6,12 +6,13 @@ import {
   projectPath,
   exportPreset,
   exportPath,
-  exportName
+  exportName,
+  exportMode
 } from '../src/godot-builder/input'
 import {
-  engineVersions,
-  targetPlatforms
-} from '../src/godot-builder/input-validation'
+  supportedConfigurations,
+  supportedEngineVersions
+} from '../src/godot-builder/settings'
 
 afterEach(() => {
   jest.restoreAllMocks()
@@ -34,7 +35,9 @@ describe('Input', () => {
 
     it('returns a supported value', () => {
       const mockValue =
-        engineVersions[Math.floor(Math.random() * engineVersions.length)]
+        supportedEngineVersions[
+          Math.floor(Math.random() * supportedEngineVersions.length)
+        ]
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
       expect(engineVersion()).toStrictEqual(mockValue)
       expect(spy).toHaveBeenCalled()
@@ -58,6 +61,8 @@ describe('Input', () => {
     })
 
     it('returns a supported value', () => {
+      const targetPlatforms = Object.keys(supportedConfigurations)
+
       const mockValue =
         targetPlatforms[Math.floor(Math.random() * targetPlatforms.length)]
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
@@ -91,7 +96,22 @@ describe('Input', () => {
       }).toThrow()
     })
 
-    it('throws on no export presets configuration found', () => {
+    it('throws on no export presets file found', () => {
+      const spy = jest.spyOn(core, 'getInput')
+      spy.mockImplementationOnce(() => {
+        return 'Windows Desktop'
+      })
+      spy.mockImplementationOnce(() => {
+        return 'invalid-project/'
+      })
+
+      expect(() => {
+        exportPreset()
+      }).toThrow()
+      expect(spy).toHaveBeenCalledTimes(2)
+    })
+
+    it('throws on missing export presets configuration', () => {
       const spy = jest.spyOn(core, 'getInput')
       spy.mockImplementationOnce(() => {
         return 'Non-existing preset'
@@ -161,6 +181,36 @@ describe('Input', () => {
       const mockValue = 'project'
       const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
       expect(exportName()).toStrictEqual(mockValue)
+      expect(spy).toHaveBeenCalled()
+    })
+  })
+
+  describe('exportMode', () => {
+    it('returns the default value', () => {
+      expect(exportMode()).toStrictEqual('release')
+    })
+
+    it('throws on unsupported values', () => {
+      const mockValue = 'invalid'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+
+      expect(() => {
+        exportMode()
+      }).toThrow()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('returns the "debug" value', () => {
+      const mockValue = 'debug'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+      expect(exportMode()).toStrictEqual(mockValue)
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('returns the "release" value', () => {
+      const mockValue = 'release'
+      const spy = jest.spyOn(core, 'getInput').mockReturnValue(mockValue)
+      expect(exportMode()).toStrictEqual(mockValue)
       expect(spy).toHaveBeenCalled()
     })
   })

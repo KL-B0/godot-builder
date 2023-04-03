@@ -10,12 +10,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getWorkspace = exports.getRootFolder = exports.getActionFolder = exports.checkRunnerCompatibility = exports.supportedRunners = void 0;
+exports.getWorkspace = exports.getRootFolder = exports.getActionFolder = exports.checkRunnerCompatibility = void 0;
 const node_path_1 = __importDefault(__nccwpck_require__(9411));
-exports.supportedRunners = ['darwin', 'linux'];
-function checkRunnerCompatibility() {
-    if (!exports.supportedRunners.includes(process.platform))
-        throw new Error(`The current platform "${process.platform}" is not supported`);
+const settings_1 = __nccwpck_require__(7834);
+function checkRunnerCompatibility(runner, target) {
+    // Check for an unsupported runner
+    if (!['darwin', 'linux'].includes(runner))
+        throw new Error(`The current runner "${runner}" is not supported`);
+    // Check for an unsupported target
+    if (!(target in settings_1.supportedConfigurations))
+        throw new Error(`The target platform "${target}" is not currently supported`);
+    const expectedRunner = settings_1.supportedConfigurations[target];
+    if (runner !== expectedRunner)
+        throw new Error(`The target platform "${target}" requires "${expectedRunner}" runner, but "${runner}" was instead provided`);
 }
 exports.checkRunnerCompatibility = checkRunnerCompatibility;
 function getActionFolder() {
@@ -51,6 +58,7 @@ class BuildConfig {
         this.exportPreset = (0, input_1.exportPreset)();
         this.exportPath = (0, input_1.exportPath)();
         this.exportName = (0, input_1.exportName)();
+        this.exportMode = (0, input_1.exportMode)();
     }
 }
 exports["default"] = BuildConfig;
@@ -73,17 +81,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = void 0;
+exports.getUnixCommand = void 0;
 const exec_1 = __nccwpck_require__(1514);
 const action_1 = __nccwpck_require__(5268);
-function run(image, config, debug = false, options = undefined) {
+function dockerExport(image, config, options = undefined) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config, debug), undefined, options);
-        return `stdout: ${result.stdout} \n stderr: ${result.stderr}`;
+        const result = yield (0, exec_1.getExecOutput)(getUnixCommand(image, config), undefined, options);
+        return result.exitCode;
     });
 }
-exports.run = run;
-function getUnixCommand(image, config, debug = false) {
+exports["default"] = dockerExport;
+function getUnixCommand(image, config) {
     return `docker run \
     -w /github/workspace/ \
     --rm \
@@ -92,13 +100,14 @@ function getUnixCommand(image, config, debug = false) {
     -e EXPORT_PRESET="${config.exportPreset}" \
     -e EXPORT_PATH="${config.exportPath}" \
     -e EXPORT_NAME="${config.exportName}" \
-    ${debug ? '-e DEBUG=1' : ''} \
+    ${config.exportMode === 'debug' ? '-e DEBUG=1' : ''} \
     -v ${(0, action_1.getWorkspace)()}:/github/workspace \
     -v "${(0, action_1.getActionFolder)()}/runners/linux/build.sh:/build.sh" \
     --entrypoint /bin/bash \
     ${image.generateTag()} \
     -c /build.sh`;
 }
+exports.getUnixCommand = getUnixCommand;
 
 
 /***/ }),
@@ -133,53 +142,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Image = exports.BuildConfig = void 0;
+exports.dockerExport = exports.Image = exports.BuildConfig = void 0;
 const build_config_1 = __importDefault(__nccwpck_require__(5672));
 exports.BuildConfig = build_config_1.default;
 const image_1 = __importDefault(__nccwpck_require__(8118));
 exports.Image = image_1.default;
-
-
-/***/ }),
-
-/***/ 7644:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const engineVersions = ['4.0', 'latest'];
-exports["default"] = engineVersions;
-
-
-/***/ }),
-
-/***/ 8260:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.targetPlatforms = exports.engineVersions = void 0;
-const engine_version_1 = __importDefault(__nccwpck_require__(7644));
-exports.engineVersions = engine_version_1.default;
-const target_platform_1 = __importDefault(__nccwpck_require__(9576));
-exports.targetPlatforms = target_platform_1.default;
-
-
-/***/ }),
-
-/***/ 9576:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const targetPlatforms = ['windows', 'linux'];
-exports["default"] = targetPlatforms;
+const docker_1 = __importDefault(__nccwpck_require__(8818));
+exports.dockerExport = docker_1.default;
 
 
 /***/ }),
@@ -212,15 +181,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.exportName = exports.exportPath = exports.exportPreset = exports.projectPath = exports.targetPlatform = exports.engineVersion = void 0;
+exports.exportMode = exports.exportName = exports.exportPath = exports.exportPreset = exports.projectPath = exports.targetPlatform = exports.engineVersion = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const node_fs_1 = __importDefault(__nccwpck_require__(7561));
-const node_path_1 = __importDefault(__nccwpck_require__(9411));
-const input_validation_1 = __nccwpck_require__(8260);
+const node_fs_1 = __nccwpck_require__(7561);
+const node_path_1 = __nccwpck_require__(9411);
+const settings_1 = __nccwpck_require__(7834);
+// General function to acquire input parameters
 function getInput(parameter) {
     const input = core.getInput(parameter);
     if (input || input !== '')
@@ -228,35 +195,42 @@ function getInput(parameter) {
 }
 function engineVersion() {
     const version = getInput('engine-version') || 'latest';
-    if (!input_validation_1.engineVersions.includes(version))
+    // Check if the engine version is supported
+    if (!settings_1.supportedEngineVersions.includes(version))
         throw new Error(`Engine version "${engineVersion}" is not supported`);
     return version;
 }
 exports.engineVersion = engineVersion;
 function targetPlatform() {
     const platform = getInput('target-platform');
+    // Check if the target platform is not set
     if (!platform)
         throw new Error('No target platform was specified');
-    if (!input_validation_1.targetPlatforms.includes(platform))
+    // Check if the target platform is supported
+    if (!Object.keys(settings_1.supportedConfigurations).includes(platform))
         throw new Error(`Target platform "${targetPlatform}" is not supported`);
     return platform;
 }
 exports.targetPlatform = targetPlatform;
 function projectPath() {
-    const projPath = getInput('project-path') || './';
-    if (!node_fs_1.default.existsSync(node_path_1.default.join(projPath, 'project.godot')))
+    const projPath = getInput('project-path') || '.';
+    // Check if the project path actually exists
+    if (!(0, node_fs_1.existsSync)((0, node_path_1.join)(projPath, 'project.godot')))
         throw new Error(`No project was found at "${projectPath}"`);
     return projPath;
 }
 exports.projectPath = projectPath;
 function exportPreset() {
     const preset = getInput('export-preset');
-    const exportPresetsPath = node_path_1.default.join(projectPath(), 'export_presets.cfg');
+    const exportPresetsPath = (0, node_path_1.join)(projectPath(), 'export_presets.cfg');
+    // Check if the export preset is not set
     if (!preset)
         throw new Error('No export preset was specified');
-    if (!node_fs_1.default.existsSync(exportPresetsPath))
+    // Check if the export presets file actually exists
+    if (!(0, node_fs_1.existsSync)(exportPresetsPath))
         throw new Error('No export presets configuration was found');
-    if (!node_fs_1.default.readFileSync(exportPresetsPath).includes(preset))
+    // Check if the export presets file contains the selected configuration
+    if (!(0, node_fs_1.readFileSync)(exportPresetsPath).includes(preset))
         throw new Error(`Export preset "${exportPreset}" is not present in the configuration`);
     return preset;
 }
@@ -267,11 +241,43 @@ function exportPath() {
 exports.exportPath = exportPath;
 function exportName() {
     const name = getInput('export-name');
+    // Check if the export name is not set
     if (!name)
         throw new Error('No export name was specified');
     return name;
 }
 exports.exportName = exportName;
+function exportMode() {
+    const mode = getInput('export-mode') || 'release';
+    // Check if the export mode if between "debug" and "release"
+    if (!['debug', 'release'].includes(mode))
+        throw new Error(`Export mode must be either "debug" or "release", instead "${mode}" was specified`);
+    return mode;
+}
+exports.exportMode = exportMode;
+
+
+/***/ }),
+
+/***/ 7834:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.supportedEngineVersions = exports.supportedConfigurations = void 0;
+// Specify supported configurations following: platform => runner
+const supportedConfigurations = {
+    windows: 'linux',
+    macos: 'darwin',
+    linux: 'linux',
+    android: 'linux',
+    ios: 'darwin'
+};
+exports.supportedConfigurations = supportedConfigurations;
+// Specify supported engine versions
+const supportedEngineVersions = ['4.0', 'latest'];
+exports.supportedEngineVersions = supportedEngineVersions;
 
 
 /***/ }),
@@ -316,13 +322,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const godot_builder_1 = __nccwpck_require__(5029);
-const docker_1 = __nccwpck_require__(8818);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const buildConfig = new godot_builder_1.BuildConfig();
             const image = new godot_builder_1.Image(buildConfig);
-            core.debug(yield (0, docker_1.run)(image, buildConfig));
+            yield (0, godot_builder_1.dockerExport)(image, buildConfig);
         }
         catch (error) {
             core.error(error.message);

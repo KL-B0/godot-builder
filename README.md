@@ -9,15 +9,13 @@ Build your Godot 4 projects!
 
 | Platform | Status                                                                                                                                                                             |
 | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Windows  | [![Windows build](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml) |
-| macOS    | 🗓️                                                                                                                                                                                 |
-| Linux    | 🚧                                                                                                                                                                                 |
-| Android  | 🗓️                                                                                                                                                                                 |
-| iOS      | 🗓️                                                                                                                                                                                 |
+| Windows  | [![Windows](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-windows.yml)     |
+| macOS    | 🚧                                                                                                                                                                                 |
+| Linux    | [![Linux](https://github.com/KL-B0/godot-builder/actions/workflows/test-linux.yml/badge.svg)](https://github.com/KL-B0/godot-builder/actions/workflows/test-linux.yml)           |
+| Android  | 🚧                                                                                                                                                                                 |
+| iOS      | 🚧                                                                                                                                                                                 |
 
-🚧 -> Work in progress
-
-🗓️ -> Planned
+The project is still in early stages. Soon all listed platforms will be supported.
 
 ## Contributing
 

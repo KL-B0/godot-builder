@@ -31,6 +31,9 @@ describe('BuildConfig', () => {
       spy.mockImplementationOnce(() => {
         return 'game.exe'
       })
+      spy.mockImplementationOnce(() => {
+        return 'release'
+      })
 
       const buildConfig = new BuildConfig()
       expect(buildConfig.engineVersion).toBe('4.0')
@@ -39,8 +42,9 @@ describe('BuildConfig', () => {
       expect(buildConfig.exportPreset).toBe('Windows Desktop')
       expect(buildConfig.exportPath).toBe('build/windows')
       expect(buildConfig.exportName).toBe('game.exe')
+      expect(buildConfig.exportMode).toBe('release')
 
-      expect(spy).toHaveBeenCalledTimes(7)
+      expect(spy).toHaveBeenCalledTimes(8)
     })
   })
 })

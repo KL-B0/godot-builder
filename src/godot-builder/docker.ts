@@ -4,17 +4,17 @@ import {getActionFolder, getWorkspace} from './action'
 import BuildConfig from './build-config'
 import Image from './image'
 
-export default async function runDockerExport(
+export default async function dockerExport(
   image: Image,
   config: BuildConfig,
   options: ExecOptions | undefined = undefined
-): Promise<string> {
+): Promise<number> {
   const result = await getExecOutput(
     getUnixCommand(image, config),
     undefined,
     options
   )
-  return `stdout: ${result.stdout} \n stderr: ${result.stderr}`
+  return result.exitCode
 }
 
 export function getUnixCommand(image: Image, config: BuildConfig): string {

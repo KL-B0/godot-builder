@@ -1,5 +1,5 @@
 import BuildConfig from './build-config'
 import Image from './image'
-import runDockerExport from './docker'
+import dockerExport from './docker'
 
-export {BuildConfig, Image, runDockerExport}
+export {BuildConfig, Image, dockerExport}

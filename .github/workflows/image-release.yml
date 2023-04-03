@@ -70,7 +70,7 @@ jobs:
           file: images/windows/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USER }}/godot:latest-windows         
+            ${{ secrets.DOCKERHUB_USER }}/godot:latest-windows
 
   linux-image:
     name: Linux image 💿

@@ -9,13 +9,13 @@ on:
         type: string
       latest:
         description: "Latest version"
-        required: false
+        required: true
         default: false
         type: boolean
 
 jobs:
-  build-release-image:
-    name: Build and release image 💿
+  base-image:
+    name: Base image 💿
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,8 +27,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       
-      - name: Build and push the base image
-        if: ${{ inputs.latest }} == false
+      - name: Push the image
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |
@@ -38,7 +37,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
       
-      - name: Build and push the latest base image
+      - name: Label as latest
         if: ${{ inputs.latest }} == true
         uses: docker/build-push-action@v4.0.0
         with:
@@ -48,10 +47,22 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/godot:latest
-            ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}
+  
+  linux-image:
+    name: Linux image 💿
+    runs-on: ubuntu-latest
+    needs: [base-image]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       
-      - name: Build and push the linux image variant
-        if: ${{ inputs.latest }} == false
+      - name: Push the image
         uses: docker/build-push-action@v4.0.0
         with:
           build-args: |
@@ -61,7 +72,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}-linux
       
-      - name: Build and push the latest linux image variant
+      - name: Label as latest
         if: ${{ inputs.latest }} == true
         uses: docker/build-push-action@v4.0.0
         with:
@@ -70,6 +81,4 @@ jobs:
           file: images/linux/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USER }}/godot:latest-linux
-            ${{ secrets.DOCKERHUB_USER }}/godot:${{ github.event.inputs.version }}-linux
-          
+            ${{ secrets.DOCKERHUB_USER }}/godot:latest-linux         

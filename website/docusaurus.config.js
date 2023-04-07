@@ -69,7 +69,7 @@ const config = {
               },
               {
                 href: 'https://github.com/KL-B0/godot-builder',
-                label: 'Add a translation',
+                label: 'Help translating',
               },
             ],
           },

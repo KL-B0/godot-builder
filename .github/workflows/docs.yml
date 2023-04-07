@@ -50,4 +50,4 @@ jobs:
       - name: Build documentation
         run: |
           cd website/
-          yarn run netlify deploy --dir website/build/
+          npx netlify deploy --dir website/build/

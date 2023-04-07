@@ -1,0 +1,53 @@
+name: Docs 📜
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build ⚙️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+      
+      - name: Setup node 16
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: '16'
+      
+      - name: Install dependencies
+        run: |
+          cd website/
+          yarn
+        
+      - name: Build documentation
+        run: |
+          cd website/
+          yarn build
+  
+  preview:
+    name: Preview 👀
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+      
+      - name: Setup node 16
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: '16'
+      
+      - name: Install dependencies
+        run: |
+          cd website/
+          yarn
+        
+      - name: Build documentation
+        run: |
+          cd website/
+          yarn netlify deploy --dir website/build/

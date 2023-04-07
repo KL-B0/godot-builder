@@ -47,7 +47,7 @@ jobs:
           cd website/
           yarn
         
-      - name: Build documentation
+      - name: Deploy preview
         run: |
           cd website/
-          npx netlify deploy --dir website/build/
+          yarn run netlify deploy --dir website/build/

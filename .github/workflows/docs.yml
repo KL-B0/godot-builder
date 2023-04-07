@@ -28,7 +28,19 @@ jobs:
         run: |
           cd website/
           yarn build
-  
+
+      - name: Compress website build
+        run: |
+          cd website/
+          tar czf build.tar.gz build/
+      
+      - name: Archive website build
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs-website
+          path: website/build.tar.gz
+          retention-days: 3
+
   preview:
     name: Preview 👀
     runs-on: ubuntu-latest
@@ -46,8 +58,19 @@ jobs:
         run: |
           cd website/
           yarn
+      
+      - name: Download website build
+        uses: actions/download-artifact@v3
+        with:
+          name: docs-website
+          path: website/
+
+      - name: Extract website build
+        run: |
+          cd website
+          tar -xf build.tar.gz
         
       - name: Deploy preview
         run: |
           cd website/
-          yarn run netlify deploy --dir website/build/
+          yarn run netlify deploy --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }} --dir build/

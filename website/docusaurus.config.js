@@ -64,6 +64,11 @@ const config = {
             label: 'Docs',
           },
           {
+            label: 'About me',
+            to: 'https://lorenzocapalbo.com/',
+            position: 'left',
+          },
+          {
             type: 'localeDropdown',
             position: 'right',
             dropdownItemsAfter: [

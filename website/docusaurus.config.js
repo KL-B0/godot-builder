@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Godot Builder',
-  tagline: 'A straightforward way to export your Godot game for multiple platforms',
+  tagline: 'An easy way to export your Godot project for multiple platforms',
   favicon: 'img/favicon.ico',
 
   url: 'https://godot-builder.lorenzocapalbo.com',
@@ -53,7 +53,7 @@ const config = {
       navbar: {
         title: 'Godot Builder',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Godot Builder Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -111,6 +111,9 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ['markdown']
       },
+      colorMode: {
+        respectPrefersColorScheme: true
+      }
     }),
 };
 

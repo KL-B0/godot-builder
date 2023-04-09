@@ -1,9 +1,24 @@
-# Godot - Builder
+<h1 align="center">
+  <br>
+  <img src="https://github.com/KL-B0/godot-builder/website/static/img/logo.svg" alt="Godot Builder Logo" width=200>
+  <br>
+  Godot Builder
+  <br>
+</h1>
 
-[![Main 🔥](https://github.com/KL-B0/godot-builder/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/KL-B0/godot-builder/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/KL-B0/godot-builder/branch/main/graph/badge.svg?token=BIL79P5I7T)](https://codecov.io/gh/KL-B0/godot-builder)
+<h4 align="center">An easy way to export your Godot project for multiple platforms</h4>
 
-Build your Godot 4 projects!
+<p align="center">
+  <a href="https://github.com/KL-B0/godot-builder/actions">
+    <img src="https://github.com/KL-B0/godot-builder/actions/workflows/main.yml/badge.svg">
+  </a>
+  <a href="https://codecov.io/gh/KL-B0/godot-builder">
+    <img src="https://codecov.io/gh/KL-B0/godot-builder/branch/main/graph/badge.svg?token=BIL79P5I7T">
+  </a>
+  <a href="https://github.com/KL-B0/godot-builder/actions">
+    <img src="https://github.com/KL-B0/godot-builder/actions/workflows/docs.yml/badge.svg">
+  </a>
+</p>
 
 ## Project status
 

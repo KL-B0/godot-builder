@@ -1,14 +1,12 @@
-name: Docs 📜
+name: Release 🚀
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  release:
+    types: [published]
 
 jobs:
-  build:
-    name: Build ⚙️
+  build-docs:
+    name: Build docs ⚙️
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,7 +26,6 @@ jobs:
         run: |
           cd website/
           yarn build
-
       - name: Compress website build
         run: |
           cd website/
@@ -42,9 +39,9 @@ jobs:
           retention-days: 3
 
   preview:
-    name: Preview 👀
+    name: Release docs 🚀
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build-docs]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
@@ -70,7 +67,7 @@ jobs:
           cd website
           tar -xf build.tar.gz
         
-      - name: Deploy preview
+      - name: Deploy release
         run: |
           cd website/
-          yarn run netlify deploy --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }} --dir build/
+          yarn run netlify deploy --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }} --dir build/ --prod

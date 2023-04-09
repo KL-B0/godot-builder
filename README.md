@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/KL-B0/godot-builder/website/static/img/logo.svg" alt="Godot Builder Logo" width=200>
+  <img src="https://raw.githubusercontent.com/KL-B0/godot-builder/main/website/static/img/logo.svg" alt="Godot Builder Logo" width=200>
   <br>
   Godot Builder
   <br>
